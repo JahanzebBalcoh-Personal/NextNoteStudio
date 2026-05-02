@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { 
-  Menu, ArrowRight, Music, MicVocal, SlidersHorizontal, 
-  Users, GraduationCap, MapPin, Phone, Mail, MessageCircle, 
+import {
+  Menu, ArrowRight, Music, MicVocal, SlidersHorizontal,
+  Users, GraduationCap, MapPin, Phone, Mail, MessageCircle,
   Loader2, Mic, Laptop, Sliders, Speaker, Star, Film,
   Play, Volume2, Headphones, Activity, Disc
 } from "lucide-react";
@@ -16,7 +16,7 @@ export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success">("idle");
-  const [equalizerBars, setEqualizerBars] = useState<Array<{h: number, dur: number, dly: number, op: number}>>([]);
+  const [equalizerBars, setEqualizerBars] = useState<Array<{ h: number, dur: number, dly: number, op: number }>>([]);
 
   const { scrollYProgress } = useScroll();
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -200]);
@@ -25,7 +25,7 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
-    
+
     // Generate equalizer bars on client mount
     const bars = Array.from({ length: 60 }, () => ({
       h: 10 + Math.random() * 90,
@@ -34,7 +34,7 @@ export default function Home() {
       op: Math.random() * 0.6 + 0.1
     }));
     setEqualizerBars(bars);
-    
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -50,14 +50,14 @@ export default function Home() {
 
   const revealVariant: Variants = {
     hidden: { opacity: 0, y: 100 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { 
-        duration: 1.2, 
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 1.2,
         ease: [0.16, 1, 0.3, 1], // Custom liquid cubic-bezier
         staggerChildren: 0.1
-      } 
+      }
     }
   };
 
@@ -73,26 +73,26 @@ export default function Home() {
             <div className="relative flex items-center h-8">
               {/* Detailed Headstock */}
               <div className="w-4 h-8 bg-gradient-to-br from-gold via-gold/40 to-gold/10 rounded-l-[4px] border-r border-black/50 shadow-[0_0_10px_rgba(201,168,76,0.2)] relative flex flex-col justify-around py-1 px-[2px]">
-                {[1,2,3].map(i => <div key={i} className="w-1 h-1 bg-white/40 rounded-full"></div>)}
+                {[1, 2, 3].map(i => <div key={i} className="w-1 h-1 bg-white/40 rounded-full"></div>)}
               </div>
               {/* Elegant Neck */}
               <div className="w-24 h-4 bg-gradient-to-b from-[#1a1a1a] via-[#050505] to-[#1a1a1a] border-y border-gold/30 relative flex flex-col justify-between py-[2px] shadow-[inset_0_0_8px_black]">
                 {/* Metallic Frets */}
                 <div className="absolute inset-0 flex justify-around opacity-30">
-                  {[1,2,3,4,5,6].map(i => <div key={i} className="w-[1px] h-full bg-gradient-to-b from-white/20 via-gold/40 to-white/20"></div>)}
+                  {[1, 2, 3, 4, 5, 6].map(i => <div key={i} className="w-[1px] h-full bg-gradient-to-b from-white/20 via-gold/40 to-white/20"></div>)}
                 </div>
                 {/* Glowing Animated Strings */}
-                {[1,2,3,4].map(i => (
-                  <motion.div 
+                {[1, 2, 3, 4].map(i => (
+                  <motion.div
                     key={i}
-                    animate={{ 
+                    animate={{
                       opacity: [0.3, 0.8, 0.3],
                       boxShadow: ["0 0 0px transparent", "0 0 4px rgba(255,255,255,0.4)", "0 0 0px transparent"]
                     }}
-                    transition={{ 
-                      duration: 1.5 + i * 0.3, 
-                      repeat: Infinity, 
-                      ease: "easeInOut" 
+                    transition={{
+                      duration: 1.5 + i * 0.3,
+                      repeat: Infinity,
+                      ease: "easeInOut"
                     }}
                     className="w-full h-[1px] bg-gradient-to-r from-white/20 via-white to-white/20"
                   />
@@ -102,7 +102,7 @@ export default function Home() {
 
             {/* Stylish Guitar Body (Scaled Down) */}
             <div className="relative -ml-3 flex items-center justify-center py-3 px-8 bg-gradient-to-br from-[#1a1a1a] via-black to-[#050505] border border-gold/40 shadow-[0_15px_40px_rgba(0,0,0,0.8),_0_0_20px_rgba(201,168,76,0.05)] rounded-[2rem] overflow-hidden group-hover/logo:border-gold/60 transition-all duration-700">
-              
+
               {/* Animated Background Visualizer */}
               <div className="absolute inset-0 flex items-center justify-around px-10 opacity-20 pointer-events-none">
                 {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -120,18 +120,18 @@ export default function Home() {
               </div>
 
               {/* Dynamic Lens Flare / Glow */}
-              <motion.div 
+              <motion.div
                 animate={{ opacity: [0.1, 0.3, 0.1], scale: [1, 1.2, 1] }}
                 transition={{ duration: 4, repeat: Infinity }}
                 className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(201,168,76,0.15)_0%,_transparent_70%)] pointer-events-none"
               />
-              
+
               {/* Brand Identity */}
               <div className="relative z-10 flex flex-col items-center">
                 <div className="flex items-center gap-2 mb-[-4px]">
                   <span className="font-display font-extrabold text-3xl tracking-tight text-white group-hover/logo:text-gold transition-all duration-500 drop-shadow-[0_4px_10px_rgba(0,0,0,1)] relative overflow-hidden">
                     NextNote
-                    <motion.div 
+                    <motion.div
                       animate={{ left: ["-100%", "200%"] }}
                       transition={{ duration: 3, repeat: Infinity, ease: "linear", delay: 1 }}
                       className="absolute top-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
@@ -150,7 +150,7 @@ export default function Home() {
             </div>
           </div>
         </a>
-        
+
         <div className="hidden md:flex gap-12 items-center text-sm uppercase font-bold tracking-[0.2em]">
           {["Services", "Lessons", "Team", "About"].map((item) => (
             <a key={item} href={`#${item.toLowerCase()}`} className="relative group overflow-hidden py-1">
@@ -177,21 +177,21 @@ export default function Home() {
       <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden bg-primary">
         {/* Background Video */}
         <div className="absolute inset-0 z-0">
-          <video 
-            autoPlay 
-            loop 
-            muted 
-            playsInline 
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
             className="w-full h-full object-cover opacity-40 grayscale"
           >
             <source src="https://assets.mixkit.co/videos/preview/mixkit-recording-studio-with-a-man-singing-4328-large.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/40 to-primary"></div>
         </div>
-        
+
 
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(201,168,76,0.1),_transparent_70%)] animate-pulse pointer-events-none"></div>
-        
+
         {/* Floating Elements */}
         <motion.div style={{ y: y1 }} className="absolute top-1/4 left-10 opacity-20 hidden md:block">
           <Music className="w-20 h-20 text-gold" />
@@ -208,7 +208,7 @@ export default function Home() {
         </div>
 
         <motion.div initial="hidden" animate="visible" variants={revealVariant} className="relative z-10 text-center px-6 max-w-6xl mx-auto flex flex-col items-center">
-          <motion.div 
+          <motion.div
             initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.5, ease: "circOut" }}
             className="mb-8 h-[1px] w-40 bg-gold/50 mx-auto"
           />
@@ -260,7 +260,7 @@ export default function Home() {
         <div className="absolute top-0 right-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">01</div>
         <div className="max-w-7xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant} className="mb-24">
-            <h2 className="section-title">Superior<br/>Capabilities</h2>
+            <h2 className="section-title">Superior<br />Capabilities</h2>
             <p className="mt-8 text-silver/40 tracking-[0.5em] uppercase text-xs">Everything you need to create greatness</p>
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
@@ -272,8 +272,8 @@ export default function Home() {
               { title: "Artist Strategy", icon: Star, desc: "Building icons through sound and identity.", step: "05" },
               { title: "Cinematic OST", icon: Film, desc: "Visual storytelling through immersive audio.", step: "06" }
             ].map((srv, idx) => (
-              <motion.div 
-                key={idx} 
+              <motion.div
+                key={idx}
                 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: idx * 0.1 }}
                 className="group relative p-12 bg-primary hover:bg-gold/5 transition-all duration-700 overflow-hidden"
               >
@@ -294,16 +294,16 @@ export default function Home() {
       <section id="about" className="py-32 px-6 bg-secondary relative overflow-hidden">
         <div className="absolute top-0 left-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">02</div>
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-          <motion.div 
+          <motion.div
             style={{ y: y1 }}
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant} 
+            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant}
             className="relative group aspect-square lg:aspect-[4/5] rounded-[3rem] overflow-hidden"
           >
             <div className="absolute inset-0 bg-gold/10 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-700"></div>
-            <Image 
-              src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop" 
+            <Image
+              src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop"
               alt="Studio Interior"
-              fill 
+              fill
               className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent opacity-80"></div>
@@ -312,20 +312,20 @@ export default function Home() {
                 <Music className="w-6 h-6" />
                 <span className="text-[0.6rem] tracking-[0.5em] uppercase font-bold">The Vibe</span>
               </div>
-              <h3 className="font-display text-4xl font-bold text-white uppercase tracking-tighter leading-none">Sonic<br/>Sanctuary</h3>
+              <h3 className="font-display text-4xl font-bold text-white uppercase tracking-tighter leading-none">Sonic<br />Sanctuary</h3>
             </div>
           </motion.div>
-          
+
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant}>
             <div className="flex items-center gap-6 mb-8 text-gold">
               <span className="h-px w-12 bg-gold/30"></span>
               <span className="text-[0.6rem] tracking-[0.5em] uppercase font-bold">Our Philosophy</span>
             </div>
-            <h2 className="section-title text-left mb-12">Architects of<br/><span className="text-outline">Modern Sound</span></h2>
+            <h2 className="section-title text-left mb-12">Architects of<br /><span className="text-outline">Modern Sound</span></h2>
             <p className="text-silver/60 leading-relaxed mb-12 text-xl font-light tracking-wide">
               NextNote Studio is more than a facility; it's a multi-platinum vision realized in the heart of Multan. We engineer sonic experiences that transcend boundaries, blending analog warmth with digital precision.
             </p>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-12">
               {[
                 { text: "Acoustic Excellence", icon: Activity },
@@ -344,9 +344,9 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            
+
             <a href="#services" className="btn-secondary group flex items-center gap-6 px-10 py-5 rounded-full border-white/10 hover:border-gold/50">
-              <span className="relative z-10">View All Specs</span> 
+              <span className="relative z-10">View All Specs</span>
               <div className="glass-circle scale-75 group-hover:scale-100 transition-all duration-500">
                 <ArrowRight className="w-5 h-5" />
               </div>
@@ -364,7 +364,7 @@ export default function Home() {
                 <span className="h-px w-12 bg-gold/30"></span>
                 <span className="text-[0.6rem] tracking-[0.5em] uppercase font-bold">Educational Excellence</span>
               </div>
-              <h2 className="section-title text-left">Master Your<br/><span className="text-outline">Craft</span></h2>
+              <h2 className="section-title text-left">Master Your<br /><span className="text-outline">Craft</span></h2>
             </motion.div>
             <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant} className="text-silver/40 max-w-md text-lg font-light tracking-widest leading-relaxed text-right hidden lg:block">
               From foundational theory to advanced production techniques, learn from industry professionals in a world-class environment designed for growth.
@@ -407,33 +407,33 @@ export default function Home() {
         <div className="absolute bottom-0 right-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">04</div>
         <div className="max-w-5xl mx-auto text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant} className="mb-24">
-            <h2 className="section-title">Visionary<br/>Leadership</h2>
+            <h2 className="section-title">Visionary<br />Leadership</h2>
           </motion.div>
           <div className="flex justify-center max-w-4xl mx-auto relative perspective-[2000px]">
             <div className="absolute inset-0 bg-gold/5 blur-[120px] rounded-full animate-pulse z-0 pointer-events-none"></div>
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 60 }} 
-              whileInView={{ opacity: 1, y: 0 }} 
+
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
               whileHover={{ scale: 1.05, rotateY: 8, rotateX: -5 }}
               transition={{ duration: 1, type: "spring", bounce: 0.3 }}
-              viewport={{ once: true }} 
+              viewport={{ once: true }}
               className="relative z-10 w-full max-w-sm group cursor-pointer"
             >
               <div className="relative rounded-[3rem] overflow-hidden border border-white/10 glass transition-all duration-700 group-hover:border-gold/30">
 
-                
+
                 {/* Image Container */}
                 <div className="relative w-full aspect-[4/5]">
-                  <Image 
-                    src="/CEO.jpeg" 
-                    alt="Junaid Zafar" 
-                    fill 
-                    className="object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" 
+                  <Image
+                    src="/CEO.jpeg"
+                    alt="Junaid Zafar"
+                    fill
+                    className="object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-700"></div>
                 </div>
-                
+
                 {/* Info Section */}
                 <div className="absolute bottom-0 left-0 w-full p-14 z-20">
                   <div className="w-12 h-1 bg-gold mb-6 group-hover:w-20 transition-all duration-700"></div>
@@ -453,9 +453,9 @@ export default function Home() {
         <div className="absolute top-0 left-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">05</div>
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-start">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant}>
-            <h2 className="section-title text-left mb-12">Let's Create<br/>Your <span className="text-outline">Legacy</span></h2>
+            <h2 className="section-title text-left mb-12">Let's Create<br />Your <span className="text-outline">Legacy</span></h2>
             <p className="text-silver/40 mb-16 text-lg font-light tracking-widest leading-relaxed">Schedule your session at Multan's most advanced recording facility.</p>
-            
+
             <div className="space-y-12">
               {[
                 { i: MapPin, l: "Base of Operations", v: "ChaseUp Plaza 5th Floor, Gulgasht Multan" },
@@ -477,15 +477,15 @@ export default function Home() {
 
             <div className="mt-20">
               <a href="https://wa.me/923095827437" target="_blank" rel="noreferrer" className="inline-flex items-center gap-8 glass hover:bg-gold hover:text-black px-12 py-6 rounded-2xl font-bold tracking-[0.3em] uppercase transition-all duration-500 text-[0.65rem] group border-gold/10">
-                <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" /> 
+                <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
                 <span>Instant Booking</span>
                 <div className="glass-circle scale-50 group-hover:scale-75 group-hover:bg-black group-hover:text-gold"><ArrowRight className="w-5 h-5" /></div>
               </a>
             </div>
           </motion.div>
 
-          <motion.div 
-            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant} 
+          <motion.div
+            initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant}
             className="glass p-12 md:p-16 rounded-[3rem] relative overflow-hidden"
           >
 
@@ -526,7 +526,7 @@ export default function Home() {
           </div>
           <div className="flex gap-4">
             <a href="https://instagram.com/next_notestudio" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-silver hover:text-gold hover:bg-gold/10 transition-all">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
             </a>
           </div>
         </div>
