@@ -63,38 +63,102 @@ export default function Home() {
 
   return (
     <main className="relative overflow-hidden">
-      {/* Global Noise Overlay */}
-      <div className="bg-noise"></div>
+
       {/* Navigation */}
       <nav className={`fixed w-full z-50 transition-all duration-700 py-6 px-10 flex justify-between items-center ${isScrolled ? "bg-primary/40 backdrop-blur-3xl py-4 shadow-2xl" : "bg-transparent"}`}>
         <a href="#" className="flex items-center gap-6 group">
-          <div className="relative">
-            <Image 
-              src="/NextNote_Studio_Logo_Transparent.png" 
-              alt="NextNote Studio Logo" 
-              width={140} 
-              height={60} 
-              className="object-contain transition-all duration-700 group-hover:scale-110" 
-            />
-            <div className="absolute inset-0 bg-gold/5 blur-2xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-1000"></div>
-          </div>
-          <div className="flex flex-col border-l border-white/10 pl-6 hidden sm:flex">
-            <div className="flex flex-col">
-              <span className="font-display font-bold text-3xl tracking-[0.05em] uppercase text-gold group-hover:text-white transition-colors duration-500 leading-none">NextNote</span>
-              <span className="font-display font-bold text-xl tracking-[0.3em] uppercase text-silver/80 mt-1">Studio</span>
+          {/* Premium Brand Signature (Stylish Horizontal Guitar) */}
+          <div className="relative flex items-center group/logo transition-all duration-700 hover:scale-[1.02]">
+            {/* Guitar Head & Neck */}
+            <div className="relative flex items-center h-8">
+              {/* Detailed Headstock */}
+              <div className="w-4 h-8 bg-gradient-to-br from-gold via-gold/40 to-gold/10 rounded-l-[4px] border-r border-black/50 shadow-[0_0_10px_rgba(201,168,76,0.2)] relative flex flex-col justify-around py-1 px-[2px]">
+                {[1,2,3].map(i => <div key={i} className="w-1 h-1 bg-white/40 rounded-full"></div>)}
+              </div>
+              {/* Elegant Neck */}
+              <div className="w-24 h-4 bg-gradient-to-b from-[#1a1a1a] via-[#050505] to-[#1a1a1a] border-y border-gold/30 relative flex flex-col justify-between py-[2px] shadow-[inset_0_0_8px_black]">
+                {/* Metallic Frets */}
+                <div className="absolute inset-0 flex justify-around opacity-30">
+                  {[1,2,3,4,5,6].map(i => <div key={i} className="w-[1px] h-full bg-gradient-to-b from-white/20 via-gold/40 to-white/20"></div>)}
+                </div>
+                {/* Glowing Animated Strings */}
+                {[1,2,3,4].map(i => (
+                  <motion.div 
+                    key={i}
+                    animate={{ 
+                      opacity: [0.3, 0.8, 0.3],
+                      boxShadow: ["0 0 0px transparent", "0 0 4px rgba(255,255,255,0.4)", "0 0 0px transparent"]
+                    }}
+                    transition={{ 
+                      duration: 1.5 + i * 0.3, 
+                      repeat: Infinity, 
+                      ease: "easeInOut" 
+                    }}
+                    className="w-full h-[1px] bg-gradient-to-r from-white/20 via-white to-white/20"
+                  />
+                ))}
+              </div>
             </div>
-            <span className="text-[0.5rem] uppercase tracking-[0.6em] text-silver/30 font-sans mt-2">The Gold Standard</span>
+
+            {/* Stylish Guitar Body (Scaled Down) */}
+            <div className="relative -ml-3 flex items-center justify-center py-3 px-8 bg-gradient-to-br from-[#1a1a1a] via-black to-[#050505] border border-gold/40 shadow-[0_15px_40px_rgba(0,0,0,0.8),_0_0_20px_rgba(201,168,76,0.05)] rounded-[2rem] overflow-hidden group-hover/logo:border-gold/60 transition-all duration-700">
+              
+              {/* Animated Background Visualizer */}
+              <div className="absolute inset-0 flex items-center justify-around px-10 opacity-20 pointer-events-none">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <motion.div
+                    key={i}
+                    animate={{ height: ["10%", "70%", "20%", "90%", "15%"] }}
+                    transition={{
+                      duration: 0.8 + i * 0.2,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className="w-[1.5px] bg-gold rounded-full"
+                  />
+                ))}
+              </div>
+
+              {/* Dynamic Lens Flare / Glow */}
+              <motion.div 
+                animate={{ opacity: [0.1, 0.3, 0.1], scale: [1, 1.2, 1] }}
+                transition={{ duration: 4, repeat: Infinity }}
+                className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(201,168,76,0.15)_0%,_transparent_70%)] pointer-events-none"
+              />
+              
+              {/* Brand Identity */}
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="flex items-center gap-2 mb-[-4px]">
+                  <span className="font-display font-extrabold text-3xl tracking-tight text-white group-hover/logo:text-gold transition-all duration-500 drop-shadow-[0_4px_10px_rgba(0,0,0,1)] relative overflow-hidden">
+                    NextNote
+                    <motion.div 
+                      animate={{ left: ["-100%", "200%"] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "linear", delay: 1 }}
+                      className="absolute top-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+                    />
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 w-full">
+                  <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/40 to-gold/20"></div>
+                  <span className="font-sans font-black text-[0.6rem] tracking-[0.5em] uppercase text-gold/60 group-hover/logo:text-white transition-colors duration-500">Studio</span>
+                  <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent via-gold/40 to-gold/20"></div>
+                </div>
+              </div>
+
+              {/* Decorative Accent */}
+              <div className="absolute right-[10%] w-1.5 h-10 bg-gradient-to-b from-transparent via-gold/20 to-transparent blur-[2px] rounded-full"></div>
+            </div>
           </div>
         </a>
         
-        <div className="hidden md:flex gap-12 items-center text-[0.7rem] uppercase font-bold tracking-[0.25em]">
-          {["Services", "About", "Lessons", "Team"].map((item) => (
+        <div className="hidden md:flex gap-12 items-center text-sm uppercase font-bold tracking-[0.2em]">
+          {["Services", "Lessons", "Team", "About"].map((item) => (
             <a key={item} href={`#${item.toLowerCase()}`} className="relative group overflow-hidden py-1">
               <span className="relative z-10 hover:text-gold transition-colors duration-500">{item}</span>
               <span className="absolute bottom-0 left-0 w-full h-[1px] bg-gold -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></span>
             </a>
           ))}
-          <a href="#contact" className="btn-primary scale-90">Book Session</a>
+          <a href="#contact" className="btn-primary">Book Session</a>
         </div>
 
         <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-gold focus:outline-none z-50">
@@ -104,7 +168,7 @@ export default function Home() {
 
       {/* Mobile Menu Overlay */}
       <div className={`fixed inset-0 bg-primary/95 backdrop-blur-xl z-40 flex flex-col justify-center items-center gap-8 text-2xl font-display transform transition-transform duration-500 ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
-        {["Services", "About", "Lessons", "Team", "Contact"].map(item => (
+        {["Services", "Lessons", "Team", "Contact", "About"].map(item => (
           <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMobileMenuOpen(false)} className="mobile-link">{item}</a>
         ))}
       </div>
@@ -125,7 +189,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/40 to-primary"></div>
         </div>
         
-        <div className="absolute inset-0 bg-noise pointer-events-none z-10"></div>
+
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(201,168,76,0.1),_transparent_70%)] animate-pulse pointer-events-none"></div>
         
         {/* Floating Elements */}
@@ -290,10 +354,57 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+      {/* Lessons Section */}
+      <section id="lessons" className="py-32 px-6 bg-secondary relative overflow-hidden">
+        <div className="absolute top-0 right-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">03</div>
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-12">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant}>
+              <div className="flex items-center gap-6 mb-8 text-gold">
+                <span className="h-px w-12 bg-gold/30"></span>
+                <span className="text-[0.6rem] tracking-[0.5em] uppercase font-bold">Educational Excellence</span>
+              </div>
+              <h2 className="section-title text-left">Master Your<br/><span className="text-outline">Craft</span></h2>
+            </motion.div>
+            <motion.p initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant} className="text-silver/40 max-w-md text-lg font-light tracking-widest leading-relaxed text-right hidden lg:block">
+              From foundational theory to advanced production techniques, learn from industry professionals in a world-class environment designed for growth.
+            </motion.p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              { title: "Guitar Mastery", desc: "Acoustic & Electric techniques from theory to performance.", icon: Music },
+              { title: "Vocal Coaching", desc: "Breath control, pitch precision & stage presence training.", icon: Mic },
+              { title: "Music Production", desc: "Mixing, Mastering & industry-standard DAW workflows.", icon: Laptop },
+              { title: "Piano Theory", desc: "Classical foundations and modern contemporary styles.", icon: Disc }
+            ].map((lesson, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1, duration: 0.8 }}
+                viewport={{ once: true }}
+                className="group relative p-10 rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden hover:border-gold/40 transition-all duration-700"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="w-16 h-16 rounded-2xl bg-gold/10 flex items-center justify-center text-gold mb-8 group-hover:scale-110 transition-transform duration-500">
+                  <lesson.icon className="w-8 h-8" />
+                </div>
+                <h3 className="font-display text-2xl font-bold text-white uppercase tracking-tight mb-4 group-hover:text-gold transition-colors duration-500">{lesson.title}</h3>
+                <p className="text-silver/40 text-sm tracking-widest leading-relaxed mb-8">{lesson.desc}</p>
+                <div className="flex items-center gap-4 text-gold/40 group-hover:text-gold transition-colors duration-500 font-bold text-[0.6rem] tracking-[0.2em] uppercase cursor-pointer">
+                  <span>Enroll Now</span>
+                  <ArrowRight className="w-4 h-4 translate-x-[-10px] opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Team Section */}
       <section id="team" className="py-32 px-6 bg-primary relative overflow-hidden">
-        <div className="absolute bottom-0 right-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">03</div>
+        <div className="absolute bottom-0 right-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">04</div>
         <div className="max-w-5xl mx-auto text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant} className="mb-24">
             <h2 className="section-title">Visionary<br/>Leadership</h2>
@@ -310,7 +421,7 @@ export default function Home() {
               className="relative z-10 w-full max-w-sm group cursor-pointer"
             >
               <div className="relative rounded-[3rem] overflow-hidden border border-white/10 glass transition-all duration-700 group-hover:border-gold/30">
-                <div className="absolute inset-0 bg-noise opacity-20 z-10"></div>
+
                 
                 {/* Image Container */}
                 <div className="relative w-full aspect-[4/5]">
@@ -329,7 +440,7 @@ export default function Home() {
                   <h3 className="font-display text-5xl font-bold text-white tracking-tighter uppercase mb-2 group-hover:text-gold transition-colors duration-500 drop-shadow-2xl">
                     Junaid Zafar
                   </h3>
-                  <p className="text-gold/60 font-bold tracking-[0.6em] uppercase text-[0.65rem] font-sans">
+                  <p className="text-gold/80 font-normal tracking-[0.4em] uppercase text-[0.9rem] font-sans">
                     The Visionary CEO
                   </p>
                 </div>
@@ -339,7 +450,7 @@ export default function Home() {
         </div>
       </section>      {/* Contact Section */}
       <section id="contact" className="py-32 px-6 relative border-t border-white/5 bg-secondary overflow-hidden">
-        <div className="absolute top-0 left-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">04</div>
+        <div className="absolute top-0 left-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">05</div>
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-start">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant}>
             <h2 className="section-title text-left mb-12">Let's Create<br/>Your <span className="text-outline">Legacy</span></h2>
@@ -377,7 +488,7 @@ export default function Home() {
             initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant} 
             className="glass p-12 md:p-16 rounded-[3rem] relative overflow-hidden"
           >
-            <div className="absolute inset-0 bg-noise opacity-20"></div>
+
             <form onSubmit={handleFormSubmit} className="relative z-10 space-y-10">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div className="space-y-3">
