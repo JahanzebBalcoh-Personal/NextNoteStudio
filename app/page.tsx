@@ -10,7 +10,57 @@ import {
   Play, Volume2, Headphones, Activity, Disc
 } from "lucide-react";
 import type { Variants } from "framer-motion";
-import { useScroll, useTransform } from "framer-motion";
+import { useScroll, useTransform, useSpring } from "framer-motion";
+
+// Premium 3D Space Background
+function SpaceBackground() {
+  const { scrollYProgress } = useScroll();
+  const smoothProgress = useSpring(scrollYProgress, { damping: 20, stiffness: 50 });
+  
+  const z = useTransform(smoothProgress, [0, 1], [0, 2000]);
+  const rotateX = useTransform(smoothProgress, [0, 1], [70, 75]);
+  const opacity = useTransform(smoothProgress, [0, 0.5, 1], [0.8, 0.4, 0.8]);
+
+  return (
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#020202]" style={{ perspective: "1000px" }}>
+      {/* Dynamic Glows */}
+      <motion.div style={{ y: useTransform(smoothProgress, [0, 1], [0, -800]) }} className="absolute top-[20%] left-[10%] w-[600px] h-[600px] bg-gold/10 rounded-full blur-[120px]" />
+      <motion.div style={{ y: useTransform(smoothProgress, [0, 1], [0, -1200]) }} className="absolute top-[60%] right-[10%] w-[800px] h-[800px] bg-white/5 rounded-full blur-[150px]" />
+      
+      {/* 3D Grid Floor */}
+      <motion.div 
+        className="absolute bottom-[-100%] left-[-100%] w-[300%] h-[300%]"
+        style={{
+          rotateX,
+          z,
+          opacity,
+          backgroundImage: "linear-gradient(rgba(201,168,76,0.15) 2px, transparent 2px), linear-gradient(90deg, rgba(201,168,76,0.15) 2px, transparent 2px)",
+          backgroundSize: "120px 120px",
+          transformOrigin: "top center",
+          maskImage: "radial-gradient(circle at center, black 0%, transparent 70%)",
+          WebkitMaskImage: "radial-gradient(circle at center, black 0%, transparent 70%)"
+        }}
+      />
+    </div>
+  );
+}
+
+// Premium Parallax Image
+function ParallaxImage({ src, alt, className }: { src: string, alt: string, className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const smoothY = useSpring(scrollYProgress, { damping: 25, stiffness: 60 });
+  const y = useTransform(smoothY, [0, 1], ["-25%", "25%"]);
+  const scale = useTransform(smoothY, [0, 0.5, 1], [1.2, 1, 1.2]);
+
+  return (
+    <div ref={ref} className={`relative overflow-hidden ${className}`}>
+      <motion.div style={{ y, scale }} className="absolute inset-[-25%] w-[150%] h-[150%]">
+        <Image src={src} alt={alt} fill className="object-cover" />
+      </motion.div>
+    </div>
+  );
+}
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,8 +69,9 @@ export default function Home() {
   const [equalizerBars, setEqualizerBars] = useState<Array<{ h: number, dur: number, dly: number, op: number }>>([]);
 
   const { scrollYProgress } = useScroll();
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const smoothScroll = useSpring(scrollYProgress, { damping: 20, stiffness: 50 });
+  const y1 = useTransform(smoothScroll, [0, 1], [0, -300]);
+  const y2 = useTransform(smoothScroll, [0, 1], [0, 300]);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -62,8 +113,8 @@ export default function Home() {
   };
 
   return (
-    <main className="relative overflow-hidden">
-
+    <main className="relative overflow-x-hidden bg-transparent text-white">
+      <SpaceBackground />
       {/* Navigation */}
       <nav className={`fixed w-full z-50 transition-all duration-700 py-6 px-10 flex justify-between items-center ${isScrolled ? "bg-primary/40 backdrop-blur-3xl py-4 shadow-2xl" : "bg-transparent"}`}>
         <a href="#" className="flex items-center gap-6 group">
@@ -174,7 +225,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden bg-primary">
+      <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden bg-primary/20 backdrop-blur-[2px]">
         {/* Background Video */}
         <div className="absolute inset-0 z-0">
           <video
@@ -186,7 +237,7 @@ export default function Home() {
           >
             <source src="https://assets.mixkit.co/videos/preview/mixkit-recording-studio-with-a-man-singing-4328-large.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/40 to-primary"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/60 to-transparent"></div>
         </div>
 
 
@@ -239,7 +290,7 @@ export default function Home() {
       </section>
 
       {/* Stats Strip */}
-      <section id="stats" className="py-16 bg-secondary border-y border-white/5 relative z-10">
+      <section id="stats" className="py-16 bg-secondary/80 backdrop-blur-2xl border-y border-white/5 relative z-10 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 text-center divide-x-0 md:divide-x divide-white/10">
           {[
             { v: "100+", l: "Songs Recorded" },
@@ -256,14 +307,14 @@ export default function Home() {
       </section>
 
       {/* Services Grid */}
-      <section id="services" className="py-32 px-6 relative bg-primary">
+      <section id="services" className="py-32 px-6 relative bg-primary/40 backdrop-blur-lg">
         <div className="absolute top-0 right-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">01</div>
         <div className="max-w-7xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant} className="mb-24">
             <h2 className="section-title">Superior<br />Capabilities</h2>
             <p className="mt-8 text-silver/40 tracking-[0.5em] uppercase text-xs">Everything you need to create greatness</p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-3xl overflow-hidden shadow-[0_0_100px_rgba(201,168,76,0.03)] backdrop-blur-2xl">
             {[
               { title: "Analog Recording", icon: Mic, desc: "High-fidelity capture through premium signal chains.", step: "01" },
               { title: "Global Production", icon: Laptop, desc: "World-class arrangement for the modern ear.", step: "02" },
@@ -275,7 +326,7 @@ export default function Home() {
               <motion.div
                 key={idx}
                 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: idx * 0.1 }}
-                className="group relative p-12 bg-primary hover:bg-gold/5 transition-all duration-700 overflow-hidden"
+                className="group relative p-12 bg-primary/80 hover:bg-gold/10 transition-all duration-700 overflow-hidden"
               >
                 <div className="absolute top-10 right-10 text-outline text-5xl font-bold opacity-10 group-hover:opacity-100 group-hover:scale-125 transition-all duration-700">{srv.step}</div>
                 <srv.icon className="w-12 h-12 text-gold mb-12 group-hover:scale-110 transition-transform duration-500" />
@@ -291,7 +342,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-32 px-6 bg-secondary relative overflow-hidden">
+      <section id="about" className="py-32 px-6 bg-secondary/50 backdrop-blur-md relative overflow-hidden">
         <div className="absolute top-0 left-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">02</div>
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <motion.div
@@ -300,11 +351,10 @@ export default function Home() {
             className="relative group aspect-square lg:aspect-[4/5] rounded-[3rem] overflow-hidden"
           >
             <div className="absolute inset-0 bg-gold/10 mix-blend-overlay z-10 group-hover:opacity-0 transition-opacity duration-700"></div>
-            <Image
+            <ParallaxImage
               src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2070&auto=format&fit=crop"
               alt="Studio Interior"
-              fill
-              className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000"
+              className="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-1000"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent opacity-80"></div>
             <div className="absolute bottom-12 left-12 z-20">
@@ -355,7 +405,7 @@ export default function Home() {
         </div>
       </section>
       {/* Lessons Section */}
-      <section id="lessons" className="py-32 px-6 bg-secondary relative overflow-hidden">
+      <section id="lessons" className="py-32 px-6 bg-primary/60 backdrop-blur-xl relative overflow-hidden">
         <div className="absolute top-0 right-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">03</div>
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-12">
@@ -384,7 +434,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1, duration: 0.8 }}
                 viewport={{ once: true }}
-                className="group relative p-10 rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden hover:border-gold/40 transition-all duration-700"
+                className="group relative p-10 rounded-[2.5rem] bg-white/5 border border-white/10 overflow-hidden hover:border-gold/40 transition-all duration-700 hover:-translate-y-4 hover:shadow-[0_20px_40px_rgba(201,168,76,0.1)] backdrop-blur-md"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 <div className="w-16 h-16 rounded-2xl bg-gold/10 flex items-center justify-center text-gold mb-8 group-hover:scale-110 transition-transform duration-500">
@@ -403,7 +453,7 @@ export default function Home() {
       </section>
 
       {/* Team Section */}
-      <section id="team" className="py-32 px-6 bg-primary relative overflow-hidden">
+      <section id="team" className="py-32 px-6 bg-secondary/70 backdrop-blur-lg relative overflow-hidden">
         <div className="absolute bottom-0 right-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">04</div>
         <div className="max-w-5xl mx-auto text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant} className="mb-24">
@@ -424,12 +474,11 @@ export default function Home() {
 
 
                 {/* Image Container */}
-                <div className="relative w-full aspect-[4/5]">
-                  <Image
+                <div className="relative w-full aspect-[4/5] overflow-hidden">
+                  <ParallaxImage
                     src="/CEO.jpeg"
                     alt="Junaid Zafar"
-                    fill
-                    className="object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000"
+                    className="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-1000"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-700"></div>
                 </div>
@@ -449,7 +498,7 @@ export default function Home() {
           </div>
         </div>
       </section>      {/* Contact Section */}
-      <section id="contact" className="py-32 px-6 relative border-t border-white/5 bg-secondary overflow-hidden">
+      <section id="contact" className="py-32 px-6 relative border-t border-white/10 bg-primary/80 backdrop-blur-2xl overflow-hidden shadow-[0_-20px_80px_rgba(0,0,0,0.8)]">
         <div className="absolute top-0 left-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">05</div>
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-start">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant}>
@@ -518,7 +567,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#030304] border-t border-white/5 pt-16 pb-8 px-6">
+      <footer className="bg-black/90 backdrop-blur-3xl border-t border-white/10 pt-16 pb-8 px-6 relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
           <div className="text-center md:text-left flex flex-col items-center md:items-start">
             <span className="font-display font-bold text-3xl tracking-widest uppercase text-gold">NextNote</span>
