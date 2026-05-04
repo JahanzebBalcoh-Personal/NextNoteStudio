@@ -214,22 +214,14 @@ export default function Home() {
               />
 
               {/* Brand Identity */}
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="flex items-center gap-2 mb-[-4px]">
-                  <span className="font-display font-extrabold text-3xl tracking-tight text-white group-hover/logo:text-gold transition-all duration-500 drop-shadow-[0_4px_10px_rgba(0,0,0,1)] relative overflow-hidden">
-                    NextNote
-                    <motion.div
-                      animate={{ left: ["-100%", "200%"] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "linear", delay: 1 }}
-                      className="absolute top-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
-                    />
-                  </span>
-                </div>
-                <div className="flex items-center gap-3 w-full">
-                  <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/40 to-gold/20"></div>
-                  <span className="font-sans font-black text-[0.6rem] tracking-[0.5em] uppercase text-gold/60 group-hover/logo:text-white transition-colors duration-500">Studio</span>
-                  <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent via-gold/40 to-gold/20"></div>
-                </div>
+              <div className="relative z-10 flex items-center gap-4">
+                <Image 
+                  src="/NextNote_Studio_Logo_Transparent.png" 
+                  alt="NextNote Studio Logo" 
+                  width={200} 
+                  height={80} 
+                  className="w-auto h-12 md:h-16 object-contain filter drop-shadow-[0_0_15px_rgba(201,168,76,0.3)] group-hover/logo:drop-shadow-[0_0_25px_rgba(201,168,76,0.6)] transition-all duration-500"
+                />
               </div>
 
               {/* Decorative Accent */}
@@ -480,13 +472,24 @@ export default function Home() {
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { title: "Guitar Mastery", desc: "Acoustic & Electric techniques from theory to performance.", icon: Music },
-              { title: "Vocal Coaching", desc: "Breath control, pitch precision & stage presence training.", icon: Mic },
-              { title: "Music Production", desc: "Mixing, Mastering & industry-standard DAW workflows.", icon: Laptop },
-              { title: "Piano Theory", desc: "Classical foundations and modern contemporary styles.", icon: Disc }
-            ].map((lesson, i) => (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-5 relative h-[500px] hidden lg:block">
+              <motion.div 
+                initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1 }} viewport={{ once: true }}
+                className="absolute inset-0 w-full h-full"
+              >
+                <div className="absolute inset-0 bg-gold/10 blur-[100px] rounded-full animate-pulse"></div>
+                <Image src="/realistic_guitar.png" alt="Guitar Lessons" fill className="object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.8)] filter contrast-125" />
+              </motion.div>
+            </div>
+            
+            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                { title: "Guitar Mastery", desc: "Acoustic & Electric techniques from theory to performance.", icon: Music },
+                { title: "Vocal Coaching", desc: "Breath control, pitch precision & stage presence training.", icon: Mic },
+                { title: "Music Production", desc: "Mixing, Mastering & industry-standard DAW workflows.", icon: Laptop },
+                { title: "Piano Theory", desc: "Classical foundations and modern contemporary styles.", icon: Disc }
+              ].map((lesson, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -507,6 +510,7 @@ export default function Home() {
                 </div>
               </motion.div>
             ))}
+            </div>
           </div>
         </div>
       </section>
