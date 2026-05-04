@@ -12,27 +12,22 @@ import {
 import type { Variants } from "framer-motion";
 import { useScroll, useTransform, useSpring } from "framer-motion";
 
-function StickyCard({ children, index }: { children: React.ReactNode, index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"]
-  });
-
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.3]);
-  const y = useTransform(scrollYProgress, [0, 1], [0, 50]);
+// Scroll Progress Line connecting sections
+function ScrollProgressLine() {
+  const { scrollYProgress } = useScroll();
+  const scaleY = useSpring(scrollYProgress, { damping: 20, stiffness: 50 });
 
   return (
-    <motion.div
-      ref={ref}
-      className="sticky top-0 w-full min-h-screen flex items-center justify-center overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.5)]"
-      style={{ scale, opacity, y, zIndex: index }}
-    >
-      <div className="w-full h-full relative bg-[#050505]/80 backdrop-blur-3xl border-t border-white/5 rounded-t-[3rem]">
-        {children}
-      </div>
-    </motion.div>
+    <div className="fixed left-4 md:left-10 top-0 bottom-0 w-[1px] bg-white/5 z-40">
+      <motion.div
+        className="w-full bg-gradient-to-b from-gold via-gold to-transparent origin-top"
+        style={{ scaleY, height: "100%" }}
+      />
+      <motion.div
+        className="absolute w-3 h-3 rounded-full bg-gold shadow-[0_0_10px_rgba(201,168,76,0.8)] -left-[5px]"
+        style={{ top: useTransform(scaleY, [0, 1], ["0%", "100%"]) }}
+      />
+    </div>
   );
 }
 
@@ -137,8 +132,9 @@ export default function Home() {
   };
 
   return (
-    <main className="relative bg-transparent text-white">
+    <main className="relative bg-transparent text-white overflow-hidden">
       <SpaceBackground />
+      <ScrollProgressLine />
       {/* Navigation */}
       <nav className={`fixed w-full z-50 transition-all duration-700 py-6 px-10 flex justify-between items-center ${isScrolled ? "bg-primary/40 backdrop-blur-3xl py-4 shadow-2xl" : "bg-transparent"}`}>
         <a href="#" className="flex items-center gap-6 group">
@@ -249,8 +245,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <StickyCard index={10}>
-      <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden bg-transparent">
+      <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden bg-primary/20 backdrop-blur-[2px]">
         {/* Background Video */}
         <div className="absolute inset-0 z-0">
           <video
@@ -313,11 +308,9 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
-      </StickyCard>
 
       {/* Stats Strip */}
-      <StickyCard index={20}>
-      <section id="stats" className="py-16 bg-transparent border-y border-white/5 relative z-10 w-full h-screen flex flex-col justify-center">
+      <section id="stats" className="py-16 bg-secondary/80 backdrop-blur-2xl border-y border-white/5 relative z-10 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 text-center divide-x-0 md:divide-x divide-white/10">
           {[
             { v: "100+", l: "Songs Recorded" },
@@ -332,11 +325,9 @@ export default function Home() {
           ))}
         </div>
       </section>
-      </StickyCard>
 
       {/* Services Grid */}
-      <StickyCard index={30}>
-      <section id="services" className="py-32 px-6 relative bg-transparent w-full min-h-screen flex flex-col justify-center">
+      <section id="services" className="py-32 px-6 relative bg-primary/40 backdrop-blur-lg">
         <div className="absolute top-0 right-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">01</div>
         <div className="max-w-7xl mx-auto">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant} className="mb-24">
@@ -369,11 +360,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-      </StickyCard>
 
       {/* About Section */}
-      <StickyCard index={40}>
-      <section id="about" className="py-32 px-6 bg-transparent relative overflow-hidden w-full min-h-screen flex flex-col justify-center">
+      <section id="about" className="py-32 px-6 bg-secondary/50 backdrop-blur-md relative overflow-hidden">
         <div className="absolute top-0 left-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">02</div>
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
           <motion.div
@@ -435,10 +424,8 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-      </StickyCard>
       {/* Lessons Section */}
-      <StickyCard index={50}>
-      <section id="lessons" className="py-32 px-6 bg-transparent relative overflow-hidden w-full min-h-screen flex flex-col justify-center">
+      <section id="lessons" className="py-32 px-6 bg-primary/60 backdrop-blur-xl relative overflow-hidden">
         <div className="absolute top-0 right-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">03</div>
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-12">
@@ -484,11 +471,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-      </StickyCard>
 
       {/* Team Section */}
-      <StickyCard index={60}>
-      <section id="team" className="py-32 px-6 bg-transparent relative overflow-hidden w-full min-h-screen flex flex-col justify-center">
+      <section id="team" className="py-32 px-6 bg-secondary/70 backdrop-blur-lg relative overflow-hidden">
         <div className="absolute bottom-0 right-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">04</div>
         <div className="max-w-5xl mx-auto text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant} className="mb-24">
@@ -533,10 +518,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-      </StickyCard>      
       {/* Contact Section */}
-      <StickyCard index={70}>
-      <section id="contact" className="py-32 px-6 relative bg-transparent overflow-hidden w-full min-h-screen flex flex-col justify-center">
+      <section id="contact" className="py-32 px-6 relative border-t border-white/10 bg-primary/80 backdrop-blur-2xl overflow-hidden shadow-[0_-20px_80px_rgba(0,0,0,0.8)]">
         <div className="absolute top-0 left-0 p-20 text-outline text-9xl font-bold opacity-10 select-none hidden md:block">05</div>
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-start">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant}>
@@ -603,7 +586,6 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-      </StickyCard>
 
       {/* Footer */}
       <footer className="bg-black/90 backdrop-blur-3xl border-t border-white/10 pt-16 pb-8 px-6 relative z-10">
