@@ -12,6 +12,25 @@ import {
 import type { Variants } from "framer-motion";
 import { useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 
+const CustomScrollbar = () => (
+  <style jsx global>{`
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #030304;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(to bottom, #C9A84C, #8B7332);
+      border-radius: 10px;
+      border: 3px solid #030304;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #E5C158;
+    }
+  `}</style>
+);
+
 // Scroll Progress Line connecting sections
 function ScrollProgressLine() {
   const { scrollYProgress } = useScroll();
@@ -149,6 +168,7 @@ export default function Home() {
 
   return (
     <main className="relative bg-transparent text-white overflow-hidden">
+      <CustomScrollbar />
       <SpaceBackground />
       <ScrollProgressLine />
       {/* Navigation */}
@@ -323,7 +343,7 @@ export default function Home() {
             <Sparkles className="w-3 h-3 text-gold" />
           </motion.div>
           
-          <h1 className="font-display text-7xl md:text-[11rem] font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-silver/40 leading-none tracking-tighter drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] filter drop-shadow-2xl">
+          <h1 className="font-display text-5xl sm:text-7xl md:text-[11rem] font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-silver/40 leading-none tracking-tighter drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] filter drop-shadow-2xl">
             <span className="block overflow-hidden pb-2" style={{ transform: "translateZ(80px)" }}>
               <motion.span initial={{ y: "100%", rotate: 5 }} animate={{ y: 0, rotate: 0 }} transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} className="inline-block pr-4">NextNote</motion.span>
             </span>
@@ -632,27 +652,61 @@ export default function Home() {
               <button disabled={formStatus === "loading"} type="submit" className="w-full py-6 bg-gold text-black font-bold uppercase tracking-[0.4em] text-xs rounded-2xl flex justify-center transition-all hover:bg-white hover:shadow-glow-gold">
                 {formStatus === "loading" ? <Loader2 className="w-6 h-6 animate-spin" /> : "Transmit Request"}
               </button>
-              {formStatus === "success" && <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-xs text-gold text-center mt-6 tracking-widest uppercase">Signal received. Stand by.</motion.p>}
+{ formStatus === "success" && <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-xs text-gold text-center mt-6 tracking-widest uppercase">Signal received. Stand by.</motion.p>}
             </form>
           </motion.div>
         </div>
       </section>
-
       {/* Footer */}
-      <footer className="bg-black/90 backdrop-blur-3xl border-t border-white/10 pt-16 pb-8 px-6 relative z-10">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
-          <div className="text-center md:text-left flex flex-col items-center md:items-start">
-            <span className="font-display font-bold text-3xl tracking-widest uppercase text-gold">NextNote</span>
-            <span className="text-[0.6rem] uppercase tracking-[0.4em] text-silver">Studio</span>
+      <footer className="bg-black/95 backdrop-blur-3xl border-t border-white/10 pt-24 pb-12 px-6 relative z-10 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
+        
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 md:gap-12 mb-20">
+          <div className="col-span-1 md:col-span-2">
+            <div className="text-3xl font-display font-black text-white mb-6 uppercase tracking-tight flex items-center gap-3">
+              <div className="w-10 h-10 bg-gold rounded-lg flex items-center justify-center text-black font-bold">N</div>
+              NextNote<span className="text-gold">Studio</span>
+            </div>
+            <p className="text-silver/40 max-w-sm mb-8 leading-relaxed tracking-widest text-xs">
+              Architecting the future of sound in Multan. From analog warmth to digital precision, we bring your vision to life with multi-platinum standards.
+            </p>
+            <div className="flex gap-6">
+              {["Instagram", "Facebook", "YouTube"].map((social) => (
+                <a key={social} href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-silver/60 hover:text-gold hover:border-gold/50 transition-all duration-500 bg-white/5">
+                   <span className="text-[0.6rem] font-bold uppercase tracking-tighter">{social[0]}</span>
+                </a>
+              ))}
+            </div>
           </div>
-          <div className="flex gap-4">
-            <a href="https://instagram.com/next_notestudio" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-silver hover:text-gold hover:bg-gold/10 transition-all">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
-            </a>
+          
+          <div>
+            <h4 className="text-gold text-[0.6rem] tracking-[0.4em] uppercase font-bold mb-8">Navigation</h4>
+            <ul className="flex flex-col gap-4">
+              {["Services", "Lessons", "Team", "About", "Contact"].map((item) => (
+                <li key={item}><a href={`#${item.toLowerCase()}`} className="text-silver/40 hover:text-white transition-colors uppercase text-[0.6rem] tracking-widest">{item}</a></li>
+              ))}
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="text-gold text-[0.6rem] tracking-[0.4em] uppercase font-bold mb-8">Studio Hours</h4>
+            <div className="text-silver/40 text-[0.6rem] tracking-widest space-y-4">
+              <p>MON - FRI: 10AM - 10PM</p>
+              <p>SAT - SUN: 12PM - 8PM</p>
+              <div className="pt-4">
+                <span className="block text-white font-bold mb-1 underline underline-offset-4 decoration-gold/50">BY APPOINTMENT ONLY</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="text-center border-t border-white/5 pt-8">
-          <p className="text-silver/40 text-xs tracking-widest">&copy; 2026 NextNote Studio. Multan, Pakistan. All rights reserved.</p>
+        
+        <div className="max-w-7xl mx-auto pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="text-[0.6rem] text-silver/20 tracking-[0.3em] uppercase">
+            © 2026 NextNote Studio. All Rights Reserved.
+          </div>
+          <div className="flex gap-10 text-[0.6rem] text-silver/20 tracking-[0.3em] uppercase">
+             <span>Multan, Pakistan</span>
+          </div>
         </div>
       </footer>
     </main>
