@@ -7,10 +7,10 @@ import {
   Menu, ArrowRight, Music, MicVocal, SlidersHorizontal,
   Users, GraduationCap, MapPin, Phone, Mail, MessageCircle,
   Loader2, Mic, Laptop, Sliders, Speaker, Star, Film,
-  Play, Volume2, Headphones, Activity, Disc
+  Play, Volume2, Headphones, Activity, Disc, Sparkles
 } from "lucide-react";
 import type { Variants } from "framer-motion";
-import { useScroll, useTransform, useSpring } from "framer-motion";
+import { useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 
 // Scroll Progress Line connecting sections
 function ScrollProgressLine() {
@@ -91,6 +91,22 @@ export default function Home() {
   const smoothScroll = useSpring(scrollYProgress, { damping: 20, stiffness: 50 });
   const y1 = useTransform(smoothScroll, [0, 1], [0, -300]);
   const y2 = useTransform(smoothScroll, [0, 1], [0, 300]);
+  
+  // 3D Mouse Tracking for Hero
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+    const x = (clientX / innerWidth - 0.5) * 2;
+    const y = (clientY / innerHeight - 0.5) * 2;
+    mouseX.set(x * 20); // 20 deg max rotation
+    mouseY.set(y * -20);
+  };
+
+  const rotateX = useSpring(mouseY, { stiffness: 100, damping: 30 });
+  const rotateY = useSpring(mouseX, { stiffness: 100, damping: 30 });
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -245,7 +261,7 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section id="hero" className="relative h-screen flex items-center justify-center overflow-hidden bg-primary/20 backdrop-blur-[2px]">
+      <section id="hero" onMouseMove={handleMouseMove} className="relative h-screen flex items-center justify-center overflow-hidden bg-primary/20 backdrop-blur-[2px] perspective-[1000px]">
         {/* Background Video */}
         <div className="absolute inset-0 z-0">
           <video
@@ -261,7 +277,15 @@ export default function Home() {
         </div>
 
 
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(201,168,76,0.1),_transparent_70%)] animate-pulse pointer-events-none"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(201,168,76,0.15),_transparent_60%)] animate-pulse pointer-events-none mix-blend-screen"></div>
+
+        {/* Massive Background Kinetic Text */}
+        <motion.div 
+          className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-[200vw] text-[15vw] font-display font-black text-white/[0.03] whitespace-nowrap pointer-events-none select-none z-0"
+          style={{ x: useTransform(smoothScroll, [0, 1], ["0%", "-50%"]) }}
+        >
+          CREATE &bull; RECORD &bull; INSPIRE &bull; NEXTNOTE
+        </motion.div>
 
         {/* Floating Elements */}
         <motion.div style={{ y: y1 }} className="absolute top-1/4 left-10 opacity-20 hidden md:block">
@@ -278,34 +302,49 @@ export default function Home() {
           ))}
         </div>
 
-        <motion.div initial="hidden" animate="visible" variants={revealVariant} className="relative z-10 text-center px-6 max-w-6xl mx-auto flex flex-col items-center">
+        <motion.div 
+          initial="hidden" 
+          animate="visible" 
+          variants={revealVariant} 
+          className="relative z-10 text-center px-6 max-w-6xl mx-auto flex flex-col items-center"
+          style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        >
+          {/* 3D Floating Particles Behind Text */}
+          <motion.div style={{ translateZ: -50 }} className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(201,168,76,0.2)_0%,_transparent_50%)] blur-2xl" />
+
           <motion.div
             initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 1.5, ease: "circOut" }}
-            className="mb-8 h-[1px] w-40 bg-gold/50 mx-auto"
+            style={{ translateZ: 20 }}
+            className="mb-8 h-[2px] w-40 bg-gradient-to-r from-transparent via-gold to-transparent mx-auto"
           />
-          <div className="mb-6 inline-block border border-gold/20 rounded-full px-6 py-2 text-[0.6rem] tracking-[0.4em] uppercase text-gold/80 backdrop-blur-md shadow-glow-gold">
+          <motion.div style={{ translateZ: 40 }} className="mb-6 inline-flex items-center gap-3 border border-gold/30 rounded-full px-6 py-2 text-[0.6rem] tracking-[0.4em] uppercase text-gold/90 backdrop-blur-md shadow-[0_0_20px_rgba(201,168,76,0.2)] bg-black/20">
+            <Sparkles className="w-3 h-3 text-gold" />
             Since 2026 &bull; Multi-Platinum Standards
-          </div>
-          <h1 className="font-display text-7xl md:text-[10rem] font-bold mb-8 text-white leading-none tracking-tight">
-            <span className="block overflow-hidden pb-2">
-              <motion.span initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1, delay: 0.2 }} className="inline-block pr-4">NextNote</motion.span>
+            <Sparkles className="w-3 h-3 text-gold" />
+          </motion.div>
+          
+          <h1 className="font-display text-7xl md:text-[11rem] font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-silver/40 leading-none tracking-tighter drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)] filter drop-shadow-2xl">
+            <span className="block overflow-hidden pb-2" style={{ transform: "translateZ(80px)" }}>
+              <motion.span initial={{ y: "100%", rotate: 5 }} animate={{ y: 0, rotate: 0 }} transition={{ duration: 1.2, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} className="inline-block pr-4">NextNote</motion.span>
             </span>
-            <span className="block overflow-hidden text-outline hover:text-gold transition-colors duration-700 pb-2">
-              <motion.span initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 1, delay: 0.4 }} className="inline-block pr-4">Studios</motion.span>
+            <span className="block overflow-hidden text-outline hover:text-gold transition-colors duration-700 pb-4" style={{ transform: "translateZ(120px)" }}>
+              <motion.span initial={{ y: "100%", rotate: -5 }} animate={{ y: 0, rotate: 0 }} transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }} className="inline-block pr-4">Studios</motion.span>
             </span>
           </h1>
-          <p className="text-lg md:text-2xl text-silver/60 font-light tracking-[0.3em] mb-12 max-w-3xl mx-auto uppercase">
-            Architecting the future of sound in Multan
-          </p>
-          <div className="flex flex-col sm:flex-row gap-10 items-center">
-            <a href="#contact" className="btn-primary px-14 py-6 group overflow-hidden relative rounded-full">
-              <span className="relative z-10">Start Your Project</span>
+          
+          <motion.p style={{ translateZ: 60 }} className="text-lg md:text-2xl text-silver/80 font-light tracking-[0.4em] mb-14 max-w-3xl mx-auto uppercase drop-shadow-lg">
+            Architecting the <span className="text-gold font-bold">future</span> of sound in Multan
+          </motion.p>
+          
+          <motion.div style={{ translateZ: 80 }} className="flex flex-col sm:flex-row gap-8 items-center">
+            <a href="#contact" className="btn-primary px-16 py-7 group overflow-hidden relative rounded-full shadow-[0_0_40px_rgba(201,168,76,0.3)] hover:shadow-[0_0_60px_rgba(201,168,76,0.5)] transition-all duration-500 hover:scale-105">
+              <span className="relative z-10 text-sm tracking-[0.2em] font-bold">Start Your Project</span>
               <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
             </a>
-            <a href="#services" className="group flex items-center gap-6 text-[0.7rem] tracking-[0.5em] uppercase text-gold/60 hover:text-gold transition-all">
-              The Journey <div className="glass-circle scale-75 group-hover:scale-100 transition-all duration-500"><ArrowRight className="w-5 h-5" /></div>
+            <a href="#services" className="group flex items-center gap-6 text-[0.7rem] tracking-[0.5em] uppercase text-gold/80 hover:text-gold transition-all backdrop-blur-md bg-white/5 px-8 py-5 rounded-full border border-white/5 hover:border-gold/30">
+              The Journey <div className="glass-circle scale-75 group-hover:scale-100 group-hover:bg-gold group-hover:text-black transition-all duration-500"><ArrowRight className="w-5 h-5" /></div>
             </a>
-          </div>
+          </motion.div>
         </motion.div>
       </section>
 
