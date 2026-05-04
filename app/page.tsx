@@ -93,8 +93,8 @@ function ParallaxImage({ src, alt, className }: { src: string, alt: string, clas
 
   return (
     <div ref={ref} className={`overflow-hidden ${className || 'relative w-full h-full'}`}>
-      <motion.div style={{ y, scale }} className="absolute inset-[-10%] w-[120%] h-[120%]">
-        <Image src={src} alt={alt} fill className="object-cover" />
+      <motion.div style={{ y, scale }} className="absolute inset-[-5%] w-[110%] h-[110%]">
+        <Image src={src} alt={alt} fill className="object-cover object-center" />
       </motion.div>
     </div>
   );
@@ -501,13 +501,18 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-6 relative h-[400px] lg:h-[600px]">
+            <div className="lg:col-span-6 relative h-[400px] lg:h-[700px]">
               <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }} viewport={{ once: true }}
+                initial={{ opacity: 0, scale: 0.9, rotate: -5 }} whileInView={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 1.5 }} viewport={{ once: true }}
                 className="absolute inset-0 w-full h-full"
               >
-                <div className="absolute inset-0 bg-gold/20 blur-[120px] rounded-full animate-pulse"></div>
-                <Image src="/realistic_guitar.png" alt="Guitar Lessons" fill className="object-contain drop-shadow-[0_40px_70px_rgba(0,0,0,0.9)] filter contrast-125 brightness-110" />
+                <div className="absolute inset-0 bg-gold/30 blur-[150px] rounded-full animate-pulse"></div>
+                <Image 
+                  src="https://images.unsplash.com/photo-1550985616-10810253b84d?q=80&w=2070&auto=format&fit=crop" 
+                  alt="Premium Guitar" 
+                  fill 
+                  className="object-contain drop-shadow-[0_50px_100px_rgba(0,0,0,0.9)] filter contrast-125 brightness-110" 
+                />
               </motion.div>
             </div>
             
@@ -566,10 +571,11 @@ export default function Home() {
 
                 {/* Image Container */}
                 <div className="relative w-full aspect-[4/5] overflow-hidden">
-                  <ParallaxImage
+                  <Image
                     src="/CEO.jpeg"
                     alt="Junaid Zafar"
-                    className="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-1000"
+                    fill
+                    className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-700"></div>
                 </div>
