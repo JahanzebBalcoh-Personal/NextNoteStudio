@@ -214,14 +214,22 @@ export default function Home() {
               />
 
               {/* Brand Identity */}
-              <div className="relative z-10 flex items-center gap-4">
-                <Image 
-                  src="/NextNote_Studio_Logo_Transparent.png" 
-                  alt="NextNote Studio Logo" 
-                  width={200} 
-                  height={80} 
-                  className="w-auto h-12 md:h-16 object-contain filter drop-shadow-[0_0_15px_rgba(201,168,76,0.3)] group-hover/logo:drop-shadow-[0_0_25px_rgba(201,168,76,0.6)] transition-all duration-500"
-                />
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="flex items-center gap-2 mb-[-4px]">
+                  <span className="font-display font-extrabold text-3xl tracking-tight text-white group-hover/logo:text-gold transition-all duration-500 drop-shadow-[0_4px_10px_rgba(0,0,0,1)] relative overflow-hidden">
+                    NextNote
+                    <motion.div
+                      animate={{ left: ["-100%", "200%"] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "linear", delay: 1 }}
+                      className="absolute top-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+                    />
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 w-full">
+                  <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-gold/40 to-gold/20"></div>
+                  <span className="font-sans font-black text-[0.6rem] tracking-[0.5em] uppercase text-gold/60 group-hover/logo:text-white transition-colors duration-500">Studio</span>
+                  <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent via-gold/40 to-gold/20"></div>
+                </div>
               </div>
 
               {/* Decorative Accent */}
