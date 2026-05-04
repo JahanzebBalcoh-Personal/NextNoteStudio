@@ -73,7 +73,7 @@ function ParallaxImage({ src, alt, className }: { src: string, alt: string, clas
   const scale = useTransform(smoothY, [0, 0.5, 1], [1.2, 1, 1.2]);
 
   return (
-    <div ref={ref} className={`relative overflow-hidden ${className}`}>
+    <div ref={ref} className={`overflow-hidden ${className || 'relative w-full h-full'}`}>
       <motion.div style={{ y, scale }} className="absolute inset-[-25%] w-[150%] h-[150%]">
         <Image src={src} alt={alt} fill className="object-cover" />
       </motion.div>
@@ -481,7 +481,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-5 relative h-[500px] hidden lg:block">
+            <div className="lg:col-span-5 relative h-[300px] lg:h-[500px]">
               <motion.div 
                 initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1 }} viewport={{ once: true }}
                 className="absolute inset-0 w-full h-full"
