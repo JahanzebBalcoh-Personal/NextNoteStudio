@@ -93,7 +93,7 @@ function ParallaxImage({ src, alt, className }: { src: string, alt: string, clas
 
   return (
     <div ref={ref} className={`overflow-hidden ${className || 'relative w-full h-full'}`}>
-      <motion.div style={{ y, scale }} className="absolute inset-[-25%] w-[150%] h-[150%]">
+      <motion.div style={{ y, scale }} className="absolute inset-[-10%] w-[120%] h-[120%]">
         <Image src={src} alt={alt} fill className="object-cover" />
       </motion.div>
     </div>
@@ -500,18 +500,18 @@ export default function Home() {
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-5 relative h-[300px] lg:h-[500px]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-6 relative h-[400px] lg:h-[600px]">
               <motion.div 
-                initial={{ opacity: 0, x: -50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 1 }} viewport={{ once: true }}
+                initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 1 }} viewport={{ once: true }}
                 className="absolute inset-0 w-full h-full"
               >
-                <div className="absolute inset-0 bg-gold/10 blur-[100px] rounded-full animate-pulse"></div>
-                <Image src="/realistic_guitar.png" alt="Guitar Lessons" fill className="object-contain drop-shadow-[0_30px_50px_rgba(0,0,0,0.8)] filter contrast-125" />
+                <div className="absolute inset-0 bg-gold/20 blur-[120px] rounded-full animate-pulse"></div>
+                <Image src="/realistic_guitar.png" alt="Guitar Lessons" fill className="object-contain drop-shadow-[0_40px_70px_rgba(0,0,0,0.9)] filter contrast-125 brightness-110" />
               </motion.div>
             </div>
             
-            <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="lg:col-span-6 grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 { title: "Guitar Mastery", desc: "Acoustic & Electric techniques from theory to performance.", icon: Music },
                 { title: "Vocal Coaching", desc: "Breath control, pitch precision & stage presence training.", icon: Mic },
@@ -550,16 +550,16 @@ export default function Home() {
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={revealVariant} className="mb-24">
             <h2 className="section-title">Visionary<br />Leadership</h2>
           </motion.div>
-          <div className="flex justify-center max-w-4xl mx-auto relative perspective-[2000px]">
-            <div className="absolute inset-0 bg-gold/5 blur-[120px] rounded-full animate-pulse z-0 pointer-events-none"></div>
+          <div className="flex justify-center max-w-5xl mx-auto relative perspective-[2000px]">
+            <div className="absolute inset-0 bg-gold/10 blur-[150px] rounded-full animate-pulse z-0 pointer-events-none"></div>
 
             <motion.div
               initial={{ opacity: 0, y: 60 }}
               whileInView={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.05, rotateY: 8, rotateX: -5 }}
+              whileHover={{ scale: 1.02, rotateY: 5, rotateX: -2 }}
               transition={{ duration: 1, type: "spring", bounce: 0.3 }}
               viewport={{ once: true }}
-              className="relative z-10 w-full max-w-sm group cursor-pointer"
+              className="relative z-10 w-full max-w-2xl group cursor-pointer"
             >
               <div className="relative rounded-[3rem] overflow-hidden border border-white/10 glass transition-all duration-700 group-hover:border-gold/30">
 
